@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:wear/wear.dart';
 
 class WatchScreen extends StatelessWidget {
+  const WatchScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return WatchShape(
       builder: (context, shape, child) {
         return AmbientMode(
           builder: (context, mode, child) {
-            return mode == WearMode.active ? ActiveWatchFace() : AmbientWatchFace();
+            return mode == WearMode.active
+                ? ActiveWatchFace()
+                : AmbientWatchFace();
           },
         );
       },
@@ -19,7 +23,7 @@ class WatchScreen extends StatelessWidget {
 }
 
 class ActiveWatchFace extends StatefulWidget {
-  ActiveWatchFace({Key? key}) : super(key: key);
+  const ActiveWatchFace({Key? key}) : super(key: key);
 
   @override
   State<ActiveWatchFace> createState() => _ActiveWatchFaceState();
@@ -32,9 +36,9 @@ class _ActiveWatchFaceState extends State<ActiveWatchFace> {
   double scale = 0;
 
   void pileouFace() {
-    if(math.Random().nextBool()){
+    if (math.Random().nextBool()) {
       setFlip(360);
-    }else{
+    } else {
       setFlip(540);
     }
   }
@@ -47,9 +51,9 @@ class _ActiveWatchFaceState extends State<ActiveWatchFace> {
       await Future.delayed(Duration(milliseconds: 1));
     }
     int nbTour = (rotation / 180).round();
-    for (int i = 0; i < nbTour*50; i++) {
+    for (int i = 0; i < nbTour * 50; i++) {
       setState(() {
-        verticalDrag += rotation /(nbTour*50);
+        verticalDrag += rotation / (nbTour * 50);
         verticalDrag %= 360;
         isFace = verticalDrag < 90 || verticalDrag > 270;
       });
@@ -65,7 +69,8 @@ class _ActiveWatchFaceState extends State<ActiveWatchFace> {
 
   @override
   Widget build(BuildContext context) {
-    double maxSquareside = math.sqrt(math.pow((MediaQuery.of(context).size.width.round()), 2) / 2);
+    double maxSquareside =
+        math.sqrt(math.pow((MediaQuery.of(context).size.width.round()), 2) / 2);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -87,13 +92,18 @@ class _ActiveWatchFaceState extends State<ActiveWatchFace> {
                   decoration: BoxDecoration(
                     //borderRadius: BorderRadius.all(Radius.circular(maxSquareside)),
                     color: Colors.blueGrey,
-                    border: Border.all(color: Colors.white, width: (maxSquareside - scale)/10),
+                    border: Border.all(
+                        color: Colors.white,
+                        width: (maxSquareside - scale) / 10),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(isFace ? Icons.face : Icons.euro, color: Colors.white, size: (math.sqrt(math.pow((maxSquareside - scale), 2)/2)))),
+                  child: Icon(isFace ? Icons.face : Icons.euro,
+                      color: Colors.white,
+                      size: (math
+                          .sqrt(math.pow((maxSquareside - scale), 2) / 2)))),
             ),
           ),
-          Container(
+          SizedBox(
             height: scale,
             width: maxSquareside,
           ),
@@ -108,9 +118,8 @@ class AmbientWatchFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
+    return Center(
       child: Text("ambient"),
-    ));
+    );
   }
 }
